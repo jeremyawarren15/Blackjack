@@ -9,7 +9,7 @@ namespace Services
 {
     public class DeckService
     {
-        private List<Card> Deck { get; set; }
+        private List<Card> Deck { get; set; } = new List<Card>();
 
         public List<Card> GenerateDeck()
         {
@@ -26,7 +26,23 @@ namespace Services
                 }
             }
 
-            return Deck.Shuffle();
+            return Deck;
+        }
+
+        public List<Card> GenerateDeck(int numberOfDecks)
+        {
+            Deck.Clear();
+
+            var tempDeck = new List<Card>();
+
+            for (int i = 0; i < numberOfDecks; i++)
+            {
+                tempDeck.AddRange(GenerateDeck());
+            }
+
+            Deck = tempDeck;
+
+            return Deck;
         }
     }
 }
