@@ -7,6 +7,8 @@ namespace Blackjack.Contracts
 {
     public interface IViewEngine
     {
-        bool MoveView(string currentPlayerName, List<Card> hand);
+        bool Move(string currentPlayerName, List<Card> hand);
+        List<Player> CreatePlayers();
+        void PlayerBusted(string name, string nextPlayerName);
     }
 }

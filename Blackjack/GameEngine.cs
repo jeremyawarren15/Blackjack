@@ -20,23 +20,27 @@ namespace Blackjack
 
         public void Run()
         {
-            var newPlayers = new List<Player>()
-            {
-                // initialize new players here
-                // need to write a view engine 
-                // to cover this
-            };
+            var newPlayers = _viewEngine.CreatePlayers();
 
             _gameService.LoadPlayers(newPlayers);
             _gameService.BeginRound();
 
             while (true)
             {
-                var move = _viewEngine.MoveView(_gameService.GetCurrentPlayerName(), _gameService.GetCurrentPlayerHand());
+                var currentPlayerName = _gameService.GetCurrentPlayerName();
+
+                var move = _viewEngine.Move(currentPlayerName, _gameService.GetCurrentPlayerHand());
 
                 if (move)
                 {
-                    _gameService.Hit();
+                    // if Hit() returns false it means the player busted 
+                    if (!_gameService.Hit())
+                    {
+                        // we are getting the current player as the next player
+                        // because the game service has already moved on to the
+                        // next player
+                        _viewEngine.PlayerBusted(currentPlayerName, _gameService.GetCurrentPlayerName());
+                    }
                 }
                 else
                 {
