@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Blackjack.Contracts;
+using Domain.Models;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Blackjack
 {
-    public class ViewEngine
+    public class ViewEngine : IViewEngine
     {
         private ICardService _cardService;
 

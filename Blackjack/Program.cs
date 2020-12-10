@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Domain.Models;
+using Blackjack.Contracts;
 using Services;
 using Services.Contracts;
 using System;
@@ -18,40 +18,15 @@ namespace Blackjack
             // register dependencies
             builder.RegisterType<CardService>().As<ICardService>();
             builder.RegisterType<GameService>().As<IGameService>();
+            builder.RegisterType<GameEngine>().As<IGameEngine>();
+            builder.RegisterType<ViewEngine>().As<IViewEngine>();
 
             // build
             var container = builder.Build();
 
-            var cardService = container.Resolve<ICardService>();
-            var game = container.Resolve<IGameService>();
+            var game = container.Resolve<IGameEngine>();
 
-            // TODO: Move the following code to another class
-
-            var view = new ViewEngine(cardService);
-
-            var newPlayers = new List<Player>()
-            {
-                // initialize new players here
-                // need to write a view engine 
-                // to cover this
-            };
-
-            game.LoadPlayers(newPlayers);
-            game.BeginRound();
-
-            while (true)
-            {
-                var move = view.MoveView(game.GetCurrentPlayerName(), game.GetCurrentPlayerHand());
-
-                if (move)
-                {
-                    game.Hit();
-                }
-                else
-                {
-                    game.Stand();
-                }
-            }
+            game.Run();
         }
     }
 }

@@ -46,13 +46,11 @@ namespace Services
                 throw new Exception("Must load at least one player to begin.");
             }
 
-            // TODO: make this not make a new deck every round
             _deck = _cardService.GetDeck();
 
             _dealer.Hand.Clear();
             _currentPlayer = 0;
 
-            // TODO: move this out to it's own method
             foreach (var player in _players)
             {
                 player.Hand = new List<Card>();
