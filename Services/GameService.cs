@@ -48,15 +48,7 @@ namespace Services
 
             _deck = _cardService.GetDeck();
 
-            _dealer.Hand.Clear();
-            _currentPlayer = 0;
-
-            foreach (var player in _players)
-            {
-                player.Hand = new List<Card>();
-                player.Hand.Add(_deck.Pop());
-                player.Hand.Add(_deck.Pop());
-            }
+            Deal();
         }
 
         public List<Card> GetCurrentPlayerHand()
@@ -81,11 +73,13 @@ namespace Services
 
             if (handValue < 21)
             {
+                // return true if can repeat
                 return true;
             }
 
             MoveToNextPlayer();
 
+            // return false if busted
             return false;
         }
 
@@ -104,6 +98,28 @@ namespace Services
         private void MoveToNextPlayer()
         {
             _currentPlayer++;
+        }
+
+        private void Deal()
+        {
+            _currentPlayer = 0;
+
+            foreach (var player in _players)
+            {
+                player.Hand = new List<Card>();
+            }
+
+            _dealer.Hand.Clear();
+
+            for (int i = 0; i < 2; i++)
+            {
+                foreach (var player in _players)
+                {
+                    player.Hand.Add(_deck.Pop());
+                }
+
+                _dealer.Hand.Add(_deck.Pop());
+            }
         }
     }
 }
