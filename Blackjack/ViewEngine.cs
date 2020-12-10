@@ -74,5 +74,15 @@ namespace Blackjack
                     return false;
             }
         }
+
+        public void PlayerBusted(string name, string nextPlayerName)
+        {
+            Console.Clear();
+            Console.WriteLine($"{name} busted!");
+            Console.WriteLine($"{nextPlayerName} is next.");
+
+            // wait two seconds before moving to next screen
+            System.Threading.Thread.Sleep(2000);
+        }
     }
 }
