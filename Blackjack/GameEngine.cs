@@ -20,19 +20,14 @@ namespace Blackjack
 
         public void Run()
         {
-            var newPlayers = new List<Player>()
-            {
-                // initialize new players here
-                // need to write a view engine 
-                // to cover this
-            };
+            var newPlayers = _viewEngine.CreatePlayers();
 
             _gameService.LoadPlayers(newPlayers);
             _gameService.BeginRound();
 
             while (true)
             {
-                var move = _viewEngine.MoveView(_gameService.GetCurrentPlayerName(), _gameService.GetCurrentPlayerHand());
+                var move = _viewEngine.Move(_gameService.GetCurrentPlayerName(), _gameService.GetCurrentPlayerHand());
 
                 if (move)
                 {
