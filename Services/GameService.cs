@@ -26,6 +26,7 @@ namespace Services
                 Hand = new List<Card>()
             };
 
+            _deck = new Stack<Card>();
             _currentPlayer = 0;
         }
 
@@ -46,7 +47,7 @@ namespace Services
                 throw new Exception("Must load at least one player to begin.");
             }
 
-            _deck = _cardService.GetDeck();
+            AddCardsToDeckIfNeeded();
 
             Deal();
         }
@@ -64,9 +65,7 @@ namespace Services
         public bool Hit()
         {
             // add card to current players hand
-            _players[_currentPlayer]
-                .Hand
-                .Add(_deck.Pop());
+            DealToPlayer(GetCurrentPlayer());
 
             var handValue = 
                 _cardService.GetValueOfHand(GetCurrentPlayerHand());
@@ -115,10 +114,37 @@ namespace Services
             {
                 foreach (var player in _players)
                 {
-                    player.Hand.Add(_deck.Pop());
+                    DealToPlayer(player);
                 }
 
-                _dealer.Hand.Add(_deck.Pop());
+                DealToDealer();
+            }
+        }
+
+        private void DealToDealer()
+        {
+            _dealer.Hand.Add(_deck.Pop());
+            AddCardsToDeckIfNeeded();
+        }
+
+        private void DealToPlayer(Player player)
+        {
+            player.Hand.Add(_deck.Pop());
+            AddCardsToDeckIfNeeded();
+        }
+
+        private void AddCardsToDeckIfNeeded()
+        {
+            // if the deck falls below 1 deck
+            if (_deck.Count < 52)
+            {
+                // generate 3 more
+                var nextDeck = _cardService.GetDeck(3);
+                foreach (var card in nextDeck)
+                {
+                    // and append them to the deck
+                    _deck.Push(card);
+                }
             }
         }
     }
