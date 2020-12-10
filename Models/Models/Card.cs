@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Domain.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Models
+namespace Domain.Models
 {
     public class Card
     {
-        public Rank Rank { get; set; }
-        public Suit Suit { get; set; }
+        public Rank Rank { get; }
+        public Suit Suit { get; }
 
         public Card(Suit suit, Rank rank)
         {
