@@ -91,12 +91,23 @@ namespace Services
 
         private Player GetCurrentPlayer()
         {
-            return _players[_currentPlayer];
+            if (_currentPlayer < _players.Count)
+            {
+                return _players[_currentPlayer];
+            }
+            return _dealer;
         }
 
         private void MoveToNextPlayer()
         {
-            _currentPlayer++;
+            if (IsRoundComplete())
+            {
+                _currentPlayer = 0;
+            }
+            else
+            {
+                _currentPlayer++;
+            }
         }
 
         private void Deal()
@@ -146,6 +157,11 @@ namespace Services
                     _deck.Push(card);
                 }
             }
+        }
+
+        public bool IsRoundComplete()
+        {
+            return _currentPlayer == _players.Count + 1;
         }
     }
 }

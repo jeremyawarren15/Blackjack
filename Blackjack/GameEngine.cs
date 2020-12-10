@@ -46,7 +46,15 @@ namespace Blackjack
                 {
                     _gameService.Stand();
                 }
+
+                if (_gameService.IsRoundComplete())
+                {
+                    break;
+                }
             }
+
+            Console.Clear();
+            Console.WriteLine("Game Over!");
         }
     }
 

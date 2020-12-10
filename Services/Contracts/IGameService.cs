@@ -13,5 +13,6 @@ namespace Services.Contracts
         List<Card> GetCurrentPlayerHand();
         bool Hit();
         bool Stand();
+        bool IsRoundComplete();
     }
 }
