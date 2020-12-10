@@ -27,11 +27,20 @@ namespace Blackjack
 
             while (true)
             {
-                var move = _viewEngine.Move(_gameService.GetCurrentPlayerName(), _gameService.GetCurrentPlayerHand());
+                var currentPlayerName = _gameService.GetCurrentPlayerName();
+
+                var move = _viewEngine.Move(currentPlayerName, _gameService.GetCurrentPlayerHand());
 
                 if (move)
                 {
-                    _gameService.Hit();
+                    // if Hit() returns false it means the player busted 
+                    if (!_gameService.Hit())
+                    {
+                        // we are getting the current player as the next player
+                        // because the game service has already moved on to the
+                        // next player
+                        _viewEngine.PlayerBusted(currentPlayerName, _gameService.GetCurrentPlayerName());
+                    }
                 }
                 else
                 {

@@ -9,5 +9,6 @@ namespace Blackjack.Contracts
     {
         bool Move(string currentPlayerName, List<Card> hand);
         List<Player> CreatePlayers();
+        void PlayerBusted(string name, string nextPlayerName);
     }
 }
