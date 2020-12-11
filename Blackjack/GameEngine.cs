@@ -47,7 +47,7 @@ namespace Blackjack
                     _gameService.Stand();
                 }
 
-                if (_gameService.IsRoundComplete())
+                if (_gameService.IsRoundInProgress())
                 {
                     break;
                 }

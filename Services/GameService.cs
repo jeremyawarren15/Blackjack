@@ -15,6 +15,7 @@ namespace Services
         private List<Player> _players { get; set; }
         private Player _dealer { get; set; }
         private int _currentPlayer { get; set; }
+        private bool _roundInProgress { get; set; }
 
         public GameService(ICardService cardService)
         {
@@ -46,6 +47,8 @@ namespace Services
             {
                 throw new Exception("Must load at least one player to begin.");
             }
+
+            _roundInProgress = true;
 
             AddCardsToDeckIfNeeded();
 
@@ -100,14 +103,13 @@ namespace Services
 
         private void MoveToNextPlayer()
         {
-            if (IsRoundComplete())
+            if (GetCurrentPlayer() == _dealer)
             {
                 _currentPlayer = 0;
+                _roundInProgress = false;
             }
-            else
-            {
-                _currentPlayer++;
-            }
+
+            _currentPlayer++;
         }
 
         private void Deal()
@@ -159,9 +161,40 @@ namespace Services
             }
         }
 
-        public bool IsRoundComplete()
+        public bool IsRoundInProgress()
         {
-            return _currentPlayer == _players.Count + 1;
+            return _roundInProgress;
+        }
+
+        public List<Player> GetWinners()
+        {
+            var winners = new List<Player>();
+
+            if (_roundInProgress)
+            {
+                throw new Exception("Cannot get winners while round is in progress");
+            }
+
+            var dealerHandValue = _cardService.GetValueOfHand(_dealer.Hand);
+
+            foreach (var player in _players)
+            {
+                var playerHandValue = _cardService.GetValueOfHand(player.Hand);
+                if (playerHandValue <= 21)
+                {
+                    if (playerHandValue > dealerHandValue)
+                    {
+                        winners.Add(player);
+                    }
+                }
+            }
+
+            if (winners.Any())
+            {
+                return winners;
+            }
+
+            return new List<Player>() { _dealer };
         }
     }
 }
