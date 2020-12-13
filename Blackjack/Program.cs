@@ -18,7 +18,7 @@ namespace Blackjack
 
             // register dependencies
             builder.RegisterType<CardService>().As<ICardService>();
-            builder.RegisterType<BlackjackService>().As<ICardGameService<BlackjackMove>>();
+            builder.RegisterType<BlackjackService>().As<IBlackjackService>();
             builder.RegisterType<GameEngine>().As<IGameEngine>();
             builder.RegisterType<ViewEngine>().As<IViewEngine>();
 

@@ -17,6 +17,7 @@ namespace Services
         private Player _dealer { get; set; }
         private int _currentPlayer { get; set; }
         private bool _roundInProgress { get; set; }
+        private bool _hasCheckedWinner { get; set; }
 
         public BlackjackService(ICardService cardService)
         {
@@ -49,6 +50,12 @@ namespace Services
                 throw new Exception("Must load at least one player to begin.");
             }
 
+            if (!_hasCheckedWinner)
+            {
+                throw new InvalidOperationException("GetWinners() must be called before beginning another round with BeginRound()");
+            }
+
+            _hasCheckedWinner = false;
             _roundInProgress = true;
 
             AddCardsToDeckIfNeeded();
@@ -175,6 +182,8 @@ namespace Services
             {
                 throw new Exception("Cannot get winners while round is in progress");
             }
+
+            _hasCheckedWinner = true;
 
             var dealerHandValue = _cardService.GetValueOfHand(_dealer.Hand);
 
