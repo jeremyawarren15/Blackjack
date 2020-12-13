@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Enumerations
+namespace Core.Enumerations
 {
     public enum Rank
     {

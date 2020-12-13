@@ -1,6 +1,6 @@
 ﻿using Blackjack.Contracts;
-using Domain.Models;
-using Services.Contracts;
+using Core.Contracts;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

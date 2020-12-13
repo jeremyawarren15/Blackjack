@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Core.Enumerations;
+using Core.Models;
 using NUnit.Framework;
 using Services;
 using System;
