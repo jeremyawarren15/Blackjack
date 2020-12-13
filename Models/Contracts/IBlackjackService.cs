@@ -1,17 +1,18 @@
-﻿using Core.Models;
+﻿using Core.Enumerations;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Core.Contracts
 {
-    public interface ICardGameService<MoveEnumType> where MoveEnumType : Enum
+    public interface IBlackjackService
     {
         void LoadPlayers(List<Player> players);
         void BeginRound();
         string GetCurrentPlayerName();
         List<Card> GetCurrentPlayerHand();
-        MoveStatus Move(MoveEnumType move);
+        MoveStatus Move(BlackjackMove move);
         bool IsRoundInProgress();
         List<Player> GetWinners();
     }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Services
 {
-    public class BlackjackService : ICardGameService<BlackjackMoves>
+    public class BlackjackService : IBlackjackService
     {
         private ICardService _cardService;
 
@@ -208,16 +208,16 @@ namespace Services
             throw new NotImplementedException();
         }
 
-        public MoveStatus Move(BlackjackMoves move)
+        public MoveStatus Move(BlackjackMove move)
         {
             switch (move)
             {
-                case BlackjackMoves.Hit:
+                case BlackjackMove.Hit:
                     return new MoveStatus()
                     {
                         MoveSucceeded = Hit(),
                     };
-                case BlackjackMoves.Stand:
+                case BlackjackMove.Stand:
                     Stand();
                     return new MoveStatus()
                     {

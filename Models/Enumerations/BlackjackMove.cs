@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Enumerations
 {
-    public enum BlackjackMoves
+    public enum BlackjackMove
     {
         Hit,
         Stand

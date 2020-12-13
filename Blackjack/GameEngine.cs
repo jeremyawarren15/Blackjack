@@ -10,9 +10,9 @@ namespace Blackjack
     public class GameEngine : IGameEngine
     {
         private IViewEngine _viewEngine;
-        private ICardGameService<BlackjackMoves> _gameService;
+        private IBlackjackService _gameService;
 
-        public GameEngine(IViewEngine viewEngine, ICardGameService<BlackjackMoves> gameService)
+        public GameEngine(IViewEngine viewEngine, IBlackjackService gameService)
         {
             _viewEngine = viewEngine;
             _gameService = gameService;
@@ -33,7 +33,7 @@ namespace Blackjack
 
                 if (move)
                 {
-                    if (!_gameService.Move(BlackjackMoves.Hit).MoveSucceeded)
+                    if (!_gameService.Move(BlackjackMove.Hit).MoveSucceeded)
                     {
                         // we are getting the current player as the next player
                         // because the game service has already moved on to the
@@ -43,7 +43,7 @@ namespace Blackjack
                 }
                 else
                 {
-                    _gameService.Move(BlackjackMoves.Stand);
+                    _gameService.Move(BlackjackMove.Stand);
                 }
 
                 if (!_gameService.IsRoundInProgress())
