@@ -1,5 +1,6 @@
 ﻿using Blackjack.Contracts;
 using Core.Contracts;
+using Core.Enumerations;
 using Core.Models;
 using System;
 using System.Collections.Generic;
@@ -56,10 +57,27 @@ namespace Blackjack
 
             foreach (var card in hand)
             {
-                Console.WriteLine(_cardService.GetFullNameOfCard(card));
-            }
+                if (card.Suit == Suit.Diamond || card.Suit == Suit.Heart)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                Console.Write(_cardService.GetSymbolOfCard(card));
 
-            Console.Write("(h)it or (s)tand? ");
+                // writes a normal space
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" ");
+            }
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\n(h)it or (s)tand?");
 
             var move = Console.ReadKey().Key;
 

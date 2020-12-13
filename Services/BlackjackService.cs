@@ -31,6 +31,7 @@ namespace Services
 
             _deck = new Stack<Card>();
             _currentPlayer = 0;
+            _hasCheckedWinner = true;
         }
 
         public void LoadPlayers(List<Player> players)

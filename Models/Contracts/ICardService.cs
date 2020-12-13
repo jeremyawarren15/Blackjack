@@ -8,6 +8,7 @@ namespace Core.Contracts
     public interface ICardService
     {
         string GetFullNameOfCard(Card card);
+        string GetSymbolOfCard(Card card);
         Stack<Card> GetDeck(int numberOfDecks = 1);
         int GetValueOfHand(List<Card> hand);
     }
