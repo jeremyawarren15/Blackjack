@@ -1,9 +1,9 @@
-﻿using Domain.Enumerations;
+﻿using Core.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Models
+namespace Core.Models
 {
     public class Card
     {

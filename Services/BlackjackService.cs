@@ -1,5 +1,6 @@
-﻿using Domain.Models;
-using Services.Contracts;
+﻿using Core.Contracts;
+using Core.Enumerations;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Services
 {
-    public class GameService : IGameService
+    public class BlackjackService : IBlackjackService
     {
         private ICardService _cardService;
 
@@ -15,8 +16,9 @@ namespace Services
         private List<Player> _players { get; set; }
         private Player _dealer { get; set; }
         private int _currentPlayer { get; set; }
+        private bool _roundInProgress { get; set; }
 
-        public GameService(ICardService cardService)
+        public BlackjackService(ICardService cardService)
         {
             _cardService = cardService;
 
@@ -47,6 +49,8 @@ namespace Services
                 throw new Exception("Must load at least one player to begin.");
             }
 
+            _roundInProgress = true;
+
             AddCardsToDeckIfNeeded();
 
             Deal();
@@ -62,7 +66,7 @@ namespace Services
             return GetCurrentPlayer().Name;
         }
 
-        public bool Hit()
+        private bool Hit()
         {
             // add card to current players hand
             DealToPlayer(GetCurrentPlayer());
@@ -100,14 +104,13 @@ namespace Services
 
         private void MoveToNextPlayer()
         {
-            if (IsRoundComplete())
+            if (GetCurrentPlayer() == _dealer)
             {
                 _currentPlayer = 0;
+                _roundInProgress = false;
             }
-            else
-            {
-                _currentPlayer++;
-            }
+
+            _currentPlayer++;
         }
 
         private void Deal()
@@ -159,9 +162,71 @@ namespace Services
             }
         }
 
-        public bool IsRoundComplete()
+        public bool IsRoundInProgress()
         {
-            return _currentPlayer == _players.Count + 1;
+            return _roundInProgress;
+        }
+
+        public List<Player> GetWinners()
+        {
+            var winners = new List<Player>();
+
+            if (_roundInProgress)
+            {
+                throw new Exception("Cannot get winners while round is in progress");
+            }
+
+            var dealerHandValue = _cardService.GetValueOfHand(_dealer.Hand);
+
+            if (dealerHandValue > 21)
+            {
+                dealerHandValue = 0;
+            }
+
+            foreach (var player in _players)
+            {
+                var playerHandValue = _cardService.GetValueOfHand(player.Hand);
+                if (playerHandValue <= 21)
+                {
+                    if (playerHandValue > dealerHandValue)
+                    {
+                        winners.Add(player);
+                    }
+                }
+            }
+
+            if (winners.Any())
+            {
+                return winners;
+            }
+
+            return new List<Player>() { _dealer };
+        }
+
+        public Rank Move(Enum move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MoveStatus Move(BlackjackMove move)
+        {
+            switch (move)
+            {
+                case BlackjackMove.Hit:
+                    return new MoveStatus()
+                    {
+                        MoveSucceeded = Hit(),
+                    };
+                case BlackjackMove.Stand:
+                    Stand();
+                    return new MoveStatus()
+                    {
+                        MoveSucceeded = true,
+                        Message = $"{GetCurrentPlayer().Name} stood. Moving to next player."
+                    };
+            }
+
+            return null;
         }
     }
 }

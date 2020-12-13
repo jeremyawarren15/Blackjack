@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Blackjack.Contracts;
+using Core.Contracts;
+using Core.Enumerations;
 using Services;
-using Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Blackjack
 
             // register dependencies
             builder.RegisterType<CardService>().As<ICardService>();
-            builder.RegisterType<GameService>().As<IGameService>();
+            builder.RegisterType<BlackjackService>().As<ICardGameService<BlackjackMove>>();
             builder.RegisterType<GameEngine>().As<IGameEngine>();
             builder.RegisterType<ViewEngine>().As<IViewEngine>();
 

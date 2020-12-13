@@ -1,7 +1,7 @@
-﻿using Domain.Enumerations;
-using Domain.Models;
+﻿using Core.Contracts;
+using Core.Enumerations;
+using Core.Models;
 using Extensions;
-using Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

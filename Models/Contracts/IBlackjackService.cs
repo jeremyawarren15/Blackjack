@@ -1,18 +1,19 @@
-﻿using Domain.Models;
+﻿using Core.Enumerations;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.Contracts
+namespace Core.Contracts
 {
-    public interface IGameService
+    public interface IBlackjackService
     {
         void LoadPlayers(List<Player> players);
         void BeginRound();
         string GetCurrentPlayerName();
         List<Card> GetCurrentPlayerHand();
-        bool Hit();
-        bool Stand();
-        bool IsRoundComplete();
+        MoveStatus Move(BlackjackMove move);
+        bool IsRoundInProgress();
+        List<Player> GetWinners();
     }
 }
