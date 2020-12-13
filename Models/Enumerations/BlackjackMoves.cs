@@ -4,11 +4,9 @@ using System.Text;
 
 namespace Core.Enumerations
 {
-    public enum Suit
+    public enum BlackjackMoves
     {
-        Heart,
-        Diamond,
-        Club,
-        Spade
+        Hit,
+        Stand
     }
 }

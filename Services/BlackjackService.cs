@@ -1,5 +1,6 @@
-﻿using Domain.Models;
-using Services.Contracts;
+﻿using Core.Contracts;
+using Core.Enumerations;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Services
 {
-    public class GameService : IGameService
+    public class BlackjackService : ICardGameService<BlackjackMoves>
     {
         private ICardService _cardService;
 
@@ -17,7 +18,7 @@ namespace Services
         private int _currentPlayer { get; set; }
         private bool _roundInProgress { get; set; }
 
-        public GameService(ICardService cardService)
+        public BlackjackService(ICardService cardService)
         {
             _cardService = cardService;
 
@@ -65,7 +66,7 @@ namespace Services
             return GetCurrentPlayer().Name;
         }
 
-        public bool Hit()
+        private bool Hit()
         {
             // add card to current players hand
             DealToPlayer(GetCurrentPlayer());
@@ -177,6 +178,11 @@ namespace Services
 
             var dealerHandValue = _cardService.GetValueOfHand(_dealer.Hand);
 
+            if (dealerHandValue > 21)
+            {
+                dealerHandValue = 0;
+            }
+
             foreach (var player in _players)
             {
                 var playerHandValue = _cardService.GetValueOfHand(player.Hand);
@@ -195,6 +201,32 @@ namespace Services
             }
 
             return new List<Player>() { _dealer };
+        }
+
+        public Rank Move(Enum move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MoveStatus Move(BlackjackMoves move)
+        {
+            switch (move)
+            {
+                case BlackjackMoves.Hit:
+                    return new MoveStatus()
+                    {
+                        MoveSucceeded = Hit(),
+                    };
+                case BlackjackMoves.Stand:
+                    Stand();
+                    return new MoveStatus()
+                    {
+                        MoveSucceeded = true,
+                        Message = $"{GetCurrentPlayer().Name} stood. Moving to next player."
+                    };
+            }
+
+            return null;
         }
     }
 }

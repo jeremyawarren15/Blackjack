@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Models
+namespace Core.Models
 {
     public class Player
     {

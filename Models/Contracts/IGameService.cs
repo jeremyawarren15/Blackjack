@@ -1,18 +1,17 @@
-﻿using Domain.Models;
+﻿using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.Contracts
+namespace Core.Contracts
 {
-    public interface IGameService
+    public interface ICardGameService<MoveEnumType> where MoveEnumType : Enum
     {
         void LoadPlayers(List<Player> players);
         void BeginRound();
         string GetCurrentPlayerName();
         List<Card> GetCurrentPlayerHand();
-        bool Hit();
-        bool Stand();
+        MoveStatus Move(MoveEnumType move);
         bool IsRoundInProgress();
         List<Player> GetWinners();
     }
