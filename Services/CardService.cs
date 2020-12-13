@@ -18,6 +18,16 @@ namespace Services
 
         public Stack<Card> GetDeck(int numberOfDecks = 1)
         {
+            if (numberOfDecks < 0)
+            {
+                throw new ArgumentOutOfRangeException("Number of decks cannot be negative.");
+            }
+
+            if (numberOfDecks == 0)
+            {
+                return new Stack<Card>();
+            }
+
             var suits = Enum.GetValues(typeof(Suit)).Cast<Suit>();
             var ranks = Enum.GetValues(typeof(Rank)).Cast<Rank>();
 
@@ -40,6 +50,11 @@ namespace Services
         public int GetValueOfHand(List<Card> cards)
         {
             int sum = 0;
+
+            if (cards == null)
+            {
+                return sum;
+            }
 
             foreach (var card in cards)
             {
