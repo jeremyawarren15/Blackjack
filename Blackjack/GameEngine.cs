@@ -16,6 +16,8 @@ namespace Blackjack
         {
             _viewEngine = viewEngine;
             _gameService = gameService;
+
+            Console.OutputEncoding = Encoding.UTF8;
         }
 
         public void Run()

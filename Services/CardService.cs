@@ -95,5 +95,72 @@ namespace Services
 
             return 0;
         }
+
+        public string GetSymbolOfCard(Card card)
+        {
+            string rank = string.Empty;
+            string suit = string.Empty;
+
+            switch (card.Suit)
+            {
+                case Suit.Club:
+                    suit = "♣";
+                    break;
+                case Suit.Spade:
+                    suit = "♠";
+                    break;
+                case Suit.Heart:
+                    suit = "♥";
+                    break;
+                case Suit.Diamond:
+                    suit = "♦";
+                    break;
+            }
+
+            switch (card.Rank)
+            {
+                case Rank.Ace:
+                    rank = "A";
+                    break;
+                case Rank.Two:
+                    rank = "2";
+                    break;
+                case Rank.Three:
+                    rank = "3";
+                    break;
+                case Rank.Four:
+                    rank = "4";
+                    break;
+                case Rank.Five:
+                    rank = "5";
+                    break;
+                case Rank.Six:
+                    rank = "6";
+                    break;
+                case Rank.Seven:
+                    rank = "7";
+                    break;
+                case Rank.Eight:
+                    rank = "8";
+                    break;
+                case Rank.Nine:
+                    rank = "9";
+                    break;
+                case Rank.Ten:
+                    rank = "10";
+                    break;
+                case Rank.Jack:
+                    rank = "J";
+                    break;
+                case Rank.Queen:
+                    rank = "Q";
+                    break;
+                case Rank.King:
+                    rank = "K";
+                    break;
+            }
+
+            return $"{rank}{suit}";
+        }
     }
 }
